@@ -72,3 +72,73 @@ class WeatherProvider extends ChangeNotifier {
   
   
 }
+String setBg(){
+    int id = current?.weather?[0].id ?? -1;
+    
+    if (id == -1  current?.sunset == null  current?.dt == null) {
+      currentBg = AppBg.shinyDay;
+    }
+    
+   try {
+     if (current!.sunset! < current!.dt!) {
+       if (id >= 200 && id <= 531) {
+         currentBg = AppBg.rainyNight;
+       }
+       else if(id >= 600 && id <= 622){
+        currentBg = AppBg.snowNight;
+       }
+       else if(id >= 701 && id <= 781){
+        currentBg = AppBg.fogNight;
+       }
+       
+       else if(id == 800){
+        currentBg = AppBg.shinyNight;
+       }
+       else if (id >= 801 && id <=  804){
+        currentBg = AppBg.cloudyNight;
+       }
+     }
+     
+     try {
+     if (current!.sunset! < current!.dt!) {
+       if (id >= 200 && id <= 531) {
+         currentBg = AppBg.rainyNight;
+       }
+       else if(id >= 600 && id <= 622){
+        currentBg = AppBg.snowNight;
+       }
+       else if(id >= 701 && id <= 781){
+        currentBg = AppBg.fogNight;
+       }
+       
+       else if(id == 800){
+        currentBg = AppBg.shinyNight;
+       }
+       else if (id >= 801 && id <=  804){
+        currentBg = AppBg.cloudyNight;
+       }
+     }try {
+     if (current!.sunset! < current!.dt!) {
+       if (id >= 200 && id <= 531) {
+         currentBg = AppBg.rainyNight;
+       }
+       else if(id >= 600 && id <= 622){
+        currentBg = AppBg.snowNight;
+       }
+       else if(id >= 701 && id <= 781){
+        currentBg = AppBg.fogNight;
+       }
+       
+       else if(id == 800){
+        currentBg = AppBg.shinyNight;
+       }
+       else if (id >= 801 && id <=  804){
+        currentBg = AppBg.cloudyNight;
+       }
+     }
+   } catch (e) {
+     return AppBg.shinyDay;
+   }
+    
+    return currentBg ?? AppBg.shinyDay;
+  }
