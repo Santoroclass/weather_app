@@ -141,4 +141,102 @@ String setBg(){
    }
     
     return currentBg ?? AppBg.shinyDay;
+    import 'dart:convert';
+
+import 'package:flutter/material.dart';
+
+import 'package:hometask/models/posts.dart';
+import 'package:http/http.dart' as http;
+
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home:JsonExample(),
+    );
+  }
+}
+
+class JsonExample extends StatefulWidget {
+  const JsonExample({super.key});
+
+  @override
+  State<JsonExample> createState() => _JsonExampleState();
+}
+
+class _JsonExampleState extends State<JsonExample> {
+
+    List<Posts> postsList = [];
+
+    Future<List<Posts>> getPostApi() async{
+    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
+    var data = jsonDecode(response.body.toString());
+    if(response.statusCode==200){
+     for(Map i in data){
+      postsList.add(Posts.fromJson(i));
+     }
+     return postsList;
+    }
+    else{
+       return postsList;
+    }
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+           appBar: AppBar(
+            title: const Text('Api Class'),
+            centerTitle: true,
+           ),
+           body: Column(
+            children: [
+              Expanded(
+
+                child: FutureBuilder(
+                  future: getPostApi(),
+                  builder: (context, snapshot){
+                  if(!snapshot.hasData){
+                  return const Center(child:  Text('Loading ...'));
+                  }else{
+                     return ListView.builder(
+                      itemCount: postsList.length,
+                      itemBuilder: (context, index){
+                      return Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('userId: '+postsList[index].userId.toString()),
+                              Text('id: '+postsList[index].id.toString()),
+                              Text('Title: '+postsList[index].title.toString()),
+                              Text('Body: '+postsList[index].body.toString()),
+                              
+                            ],
+                          ),
+                        ),
+                      );
+                     });
+                  }
+                },
+                ),
+              ),
+            ],
+           ),
+    );
+
+
+  }
+}
   }
