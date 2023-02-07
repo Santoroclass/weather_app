@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/domain/provider/weather_provider.dart';
 import 'package:weather_app/ui/components/current_weather_status/current_weather_status.dart';
+import 'package:weather_app/ui/components/max_min_temperature/max_min_temperature.dart';
+import 'package:weather_app/ui/components/seven_days_weather_widget/seven_days_weather_widget.dart';
 import 'package:weather_app/ui/components/weather_appbar.dart';
 import 'package:weather_app/ui/ui_theme/app_colors.dart';
 import 'package:weather_app/ui/ui_theme/app_style.dart';
@@ -32,9 +34,11 @@ class HomePage extends StatelessWidget {
 
 
 class HomePageWidget extends StatelessWidget {
-  const HomePageWidget({super.key});
+  const HomePageWidget({super.key,});
 
+  
   @override
+  
   Widget build(BuildContext context) {
     final model = Provider.of<WeatherProvider>(context);
     
@@ -42,10 +46,10 @@ class HomePageWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(
-            'assets/images/shiny_day.png'),
+            model.setBg(),),  //'assets/images/shiny_day.png'
           fit: BoxFit.cover,
             ),
       
@@ -67,6 +71,21 @@ class HomePageWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 36,),
                 const CurrentWeatherStatus(),
+                const SizedBox(height: 28,),
+                Text('${model.setCurrentTemp()}°C', 
+                textAlign: TextAlign.center,
+                style: AppStyle.fontStyle.copyWith(
+                  fontSize: 90,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.darkBlueColor,
+                ),
+                ),
+                const SizedBox(height: 18,),
+                const MaxMinTemp(),
+                const SizedBox(height: 40,),
+                const SevenDaysWeatherWidget(),
+                
+                
               ],
             ),),
         ],
@@ -74,3 +93,12 @@ class HomePageWidget extends StatelessWidget {
     );
   }
 }
+
+// Text('$temperature℃',
+//                 textAlign: TextAlign.center,
+//                 style: AppStyle.fontStyle.copyWith(
+//                   fontWeight: FontWeight.w400,
+//                   fontSize: 90,
+                  
+//                   ),
+//                 ),

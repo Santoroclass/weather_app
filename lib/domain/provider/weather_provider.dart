@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:weather_app/domain/api/api.dart';
 import 'package:weather_app/domain/json_conventors/coord.dart';
 import 'package:weather_app/domain/json_conventors/weather_data.dart';
+import 'package:weather_app/ui/resources/app_bg.dart';
+import 'package:weather_app/ui/ui_theme/app_colors.dart';
 
 class WeatherProvider extends ChangeNotifier {
   
@@ -69,174 +71,107 @@ class WeatherProvider extends ChangeNotifier {
    }
    
    
-  
-  
-}
-String setBg(){
-    int id = current?.weather?[0].id ?? -1;
-    
-    if (id == -1  current?.sunset == null  current?.dt == null) {
+   
+   
+   
+   /*изменение заднего фона*/
+   
+   
+   
+  String? currentBg;
+  //https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
+  String setBg(){
+    int id = current?.weather?[0].id ?? - 1;
+    if (id == 1 || current?.sunset == null || current?.dt == null) {
       currentBg = AppBg.shinyDay;
     }
     
-   try {
-     if (current!.sunset! < current!.dt!) {
-       if (id >= 200 && id <= 531) {
-         currentBg = AppBg.rainyNight;
-       }
-       else if(id >= 600 && id <= 622){
-        currentBg = AppBg.snowNight;
-       }
-       else if(id >= 701 && id <= 781){
-        currentBg = AppBg.fogNight;
-       }
-       
-       else if(id == 800){
-        currentBg = AppBg.shinyNight;
-       }
-       else if (id >= 801 && id <=  804){
-        currentBg = AppBg.cloudyNight;
-       }
-     }
-     
-     try {
-     if (current!.sunset! < current!.dt!) {
-       if (id >= 200 && id <= 531) {
-         currentBg = AppBg.rainyNight;
-       }
-       else if(id >= 600 && id <= 622){
-        currentBg = AppBg.snowNight;
-       }
-       else if(id >= 701 && id <= 781){
-        currentBg = AppBg.fogNight;
-       }
-       
-       else if(id == 800){
-        currentBg = AppBg.shinyNight;
-       }
-       else if (id >= 801 && id <=  804){
-        currentBg = AppBg.cloudyNight;
-       }
-     }try {
-     if (current!.sunset! < current!.dt!) {
-       if (id >= 200 && id <= 531) {
-         currentBg = AppBg.rainyNight;
-       }
-       else if(id >= 600 && id <= 622){
-        currentBg = AppBg.snowNight;
-       }
-       else if(id >= 701 && id <= 781){
-        currentBg = AppBg.fogNight;
-       }
-       
-       else if(id == 800){
-        currentBg = AppBg.shinyNight;
-       }
-       else if (id >= 801 && id <=  804){
-        currentBg = AppBg.cloudyNight;
-       }
-     }
-   } catch (e) {
-     return AppBg.shinyDay;
-   }
+    try {
+      
+      if(current!.sunset! < current!.dt!){
+        if(id >= 200 && id<= 531){
+          currentBg = AppBg.rainyNight;
+        }
+        else if(id>= 600 && id<= 622){
+          currentBg = AppBg.snowNight;
+          
+        }
+        else if(id>=701 && id<= 781){
+          currentBg = AppBg.fogNight;
+          AppColors.sevenDayBoxColor = const Color.fromRGBO(35, 35, 35, 0.5);
+          AppColors.darkBlueColor = const Color(0xFFFFFFFF);
+        }
+        else if(id == 800){
+          currentBg = AppBg.shinyNight;
+        }
+        else if(id >= 801 && id <= 804){
+          currentBg = AppBg.cloudyNight; 
+        }
+        
+      }
+      else{
+        if(id >= 200 && id<= 531){
+          currentBg = AppBg.rainyDay;
+          AppColors.sevenDayBoxColor = const Color.fromRGBO(106, 141, 35, 0.5);
+        }
+        else if(id>= 600 && id<= 622){
+          currentBg = AppBg.snowDay;
+        }
+        else if(id>=701 && id<= 781){
+          currentBg = AppBg.fogDay;
+        }
+        else if(id == 800){
+          currentBg = AppBg.shinyDay;
+        }
+        else if(id >= 801 && id <= 804){
+          currentBg = AppBg.cloudyDay; 
+        }
+      }
+      
+    } catch (e) {
+      return AppBg.shinyDay;
+    }
     
     return currentBg ?? AppBg.shinyDay;
-    import 'dart:convert';
-
-import 'package:flutter/material.dart';
-
-import 'package:hometask/models/posts.dart';
-import 'package:http/http.dart' as http;
-
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home:JsonExample(),
-    );
+    
+  } 
+   
+   
+   
+   
+   
+   //*****************************/
+   
+   
+   
+  
+    
+  /* получить текуший погоды */
+  
+  int kelvin = -273;
+   
+  int currentTemp = 0;
+  
+  int setCurrentTemp(){
+    currentTemp = ((current?.temp ?? -kelvin) + kelvin).round();
+    return currentTemp;
   }
-}
-
-class JsonExample extends StatefulWidget {
-  const JsonExample({super.key});
-
-  @override
-  State<JsonExample> createState() => _JsonExampleState();
-}
-
-class _JsonExampleState extends State<JsonExample> {
-
-    List<Posts> postsList = [];
-
-    Future<List<Posts>> getPostApi() async{
-    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
-    var data = jsonDecode(response.body.toString());
-    if(response.statusCode==200){
-     for(Map i in data){
-      postsList.add(Posts.fromJson(i));
-     }
-     return postsList;
-    }
-    else{
-       return postsList;
-    }
+  
+  int maxTemp = 0;
+  
+  String setMaxTemp(){
+    maxTemp = ((weatherData?.daily?[0].temp?.max ?? -kelvin) + kelvin).round();
+    return maxTemp.toString();
   }
 
-
-
-  @override
-  Widget build(BuildContext context) {
-    return  Scaffold(
-           appBar: AppBar(
-            title: const Text('Api Class'),
-            centerTitle: true,
-           ),
-           body: Column(
-            children: [
-              Expanded(
-
-                child: FutureBuilder(
-                  future: getPostApi(),
-                  builder: (context, snapshot){
-                  if(!snapshot.hasData){
-                  return const Center(child:  Text('Loading ...'));
-                  }else{
-                     return ListView.builder(
-                      itemCount: postsList.length,
-                      itemBuilder: (context, index){
-                      return Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('userId: '+postsList[index].userId.toString()),
-                              Text('id: '+postsList[index].id.toString()),
-                              Text('Title: '+postsList[index].title.toString()),
-                              Text('Body: '+postsList[index].body.toString()),
-                              
-                            ],
-                          ),
-                        ),
-                      );
-                     });
-                  }
-                },
-                ),
-              ),
-            ],
-           ),
-    );
-
-
+  int minTemp = 0;
+  String setMinTemp(){
+    minTemp = ((weatherData?.daily?[0].temp?.min ?? -kelvin) + kelvin).round();
+    return minTemp.toString();
   }
+  
+  
+
 }
-  }
+
+
