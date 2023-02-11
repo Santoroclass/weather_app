@@ -208,7 +208,6 @@ class Daily {
         : null;
     pressure = json['pressure'];
     humidity = json['humidity'];
-    dewPoint = json['dew_point'];
     windSpeed = json['wind_speed'];
     windDeg = json['wind_deg'];
     windGust = json['wind_gust'];
