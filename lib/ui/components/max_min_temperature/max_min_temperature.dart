@@ -14,23 +14,23 @@ class MaxMinTemp extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SvgPicture.asset('assets/icons/Max_temp_icon.svg',
+        SvgPicture.asset('assets/icons/max_temp_icon.svg',
         color: AppColors.redColor,
         ),
-        Text('\t${model.setMaxTemp()}°', 
+        Text('\t${model.setMaxTemp()}°',
         style: AppStyle.fontStyle.copyWith(
           fontSize: 25,
-          
+          color: AppColors.whiteColor
         ),
         ),
         const SizedBox(width: 65,),
         SvgPicture.asset('assets/icons/min_temp_icon.svg',
         color: AppColors.blueColor,
         ),
-        Text('\t${model.setMinTemp()}°', 
+        Text('\t${model.setMinTemp()}°',
         style: AppStyle.fontStyle.copyWith(
           fontSize: 25,
-          // fontWeight: FontWeight.w400,
+          color: AppColors.whiteColor
         ),
         ),
       ],
