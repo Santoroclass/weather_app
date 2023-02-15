@@ -94,7 +94,6 @@ class Current {
     uvi = json['uvi'];
     clouds = json['clouds'];
     visibility = json['visibility'];
-    windSpeed = json['wind_speed'];
     windDeg = json['wind_deg'];
     windGust = json['wind_gust'];
     if (json['weather'] != null) {
@@ -159,7 +158,7 @@ class Daily {
   int? sunset;
   int? moonrise;
   int? moonset;
-  double? moonPhase;
+  dynamic moonPhase;
   Temp? temp;
   FeelsLike? feelsLike;
   int? pressure;
@@ -208,6 +207,7 @@ class Daily {
         : null;
     pressure = json['pressure'];
     humidity = json['humidity'];
+    dewPoint = json['dew_point'];
     windSpeed = json['wind_speed'];
     windDeg = json['wind_deg'];
     windGust = json['wind_gust'];

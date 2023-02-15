@@ -13,5 +13,5 @@ abstract class AppColors {
   static Color sunItemColor = const Color(0xFF323232);
   static Color sunItemTextColor = const Color(0xFFD8D8D8);
   static Color inputColor = const Color.fromRGBO(196, 196, 196, 0.5);
-  
+  static Color iconColors = const Color(0xFF030708); //#030708
 }

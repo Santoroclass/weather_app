@@ -81,34 +81,34 @@ class WeatherProvider extends ChangeNotifier {
           currentBg = AppBg.rainyNight;
           AppColors.sevenDayBoxColor = const Color.fromRGBO(35, 35, 35, 0.5);
           AppColors.darkBlueColor = const Color.fromRGBO(198, 198, 198, 1);
-          AppColors.whiteColor = const Color.fromRGBO(255, 255, 255, 1);
+          //  AppColors.whiteColor = const Color.fromRGBO(255, 255, 255, 1);
         } else if (id >= 600 && id <= 622) {
           currentBg = AppBg.snowNight;
           AppColors.sevenDayBoxColor = const Color.fromRGBO(12, 23, 27, 0.5);
           AppColors.darkBlueColor = const Color.fromRGBO(230, 230, 230, 1);
-          AppColors.whiteColor = const Color.fromRGBO(249, 218, 218, 1);
+          //  AppColors.whiteColor = const Color.fromRGBO(249, 218, 218, 1);
         } else if (id >= 701 && id <= 781) {
           currentBg = AppBg.fogNight;
           AppColors.sevenDayBoxColor = const Color.fromRGBO(35, 35, 35, 0.5);
           AppColors.darkBlueColor = const Color(0xFFFFFFFF);
-          AppColors.whiteColor = const Color.fromRGBO(153, 153, 153, 1);
+          //  AppColors.whiteColor = const Color.fromRGBO(153, 153, 153, 1);
         } else if (id == 800) {
           currentBg = AppBg.shinyNight;
           AppColors.sevenDayBoxColor = const Color.fromRGBO(47, 97, 148, 0.5);
           AppColors.darkBlueColor = const Color.fromRGBO(255, 255, 255, 1);
-          AppColors.whiteColor = const Color.fromRGBO(81, 218, 255, 1);
+          //  AppColors.whiteColor = const Color.fromRGBO(81, 218, 255, 1);
         } else if (id >= 801 && id <= 804) {
           currentBg = AppBg.cloudyNight;
           AppColors.sevenDayBoxColor = const Color.fromRGBO(12, 23, 27, 0.5);
           AppColors.darkBlueColor = const Color.fromRGBO(226, 226, 226, 1);
-          AppColors.whiteColor = const Color.fromRGBO(126, 131, 134, 1);
+          // AppColors.whiteColor = const Color.fromRGBO(126, 131, 134, 1);
         }
       } else {
         if (id >= 200 && id <= 531) {
           currentBg = AppBg.rainyDay;
           AppColors.sevenDayBoxColor = const Color.fromRGBO(106, 141, 35, 0.5);
           AppColors.darkBlueColor = const Color.fromRGBO(3, 7, 8, 1);
-          AppColors.whiteColor = const Color.fromRGBO(0, 44, 37, 1);
+          // AppColors.whiteColor = const Color.fromRGBO(0, 44, 37, 1);
         } else if (id >= 600 && id <= 622) {
           currentBg = AppBg.snowDay;
           AppColors.sevenDayBoxColor = const Color.fromRGBO(
@@ -118,22 +118,24 @@ class WeatherProvider extends ChangeNotifier {
             0.5,
           );
           AppColors.darkBlueColor = const Color.fromRGBO(3, 7, 8, 1);
-          AppColors.whiteColor = const Color.fromRGBO(0, 38, 62, 1);
+          // AppColors.whiteColor = const Color.fromRGBO(0, 38, 62, 1);
         } else if (id >= 701 && id <= 781) {
           currentBg = AppBg.fogDay;
           AppColors.sevenDayBoxColor = const Color.fromRGBO(142, 141, 141, 0.5);
           AppColors.darkBlueColor = const Color.fromRGBO(50, 50, 50, 1);
-          AppColors.whiteColor = const Color.fromRGBO(216, 216, 216, 1);
+          AppColors.iconColors = const Color(0xFFFFFFFF);
+          AppColors.blackColor = const Color(0xFFFFFFFF);
+          // AppColors.whiteColor = const Color.fromRGBO(216, 216, 216, 1);
         } else if (id == 800) {
           currentBg = AppBg.shinyDay;
           AppColors.sevenDayBoxColor = const Color.fromRGBO(80, 130, 155, 0.3);
           AppColors.darkBlueColor = const Color.fromRGBO(0, 37, 53, 1);
-          AppColors.whiteColor = const Color.fromRGBO(255, 255, 255, 1);
+          // AppColors.whiteColor = const Color.fromRGBO(255, 255, 255, 1);
         } else if (id >= 801 && id <= 804) {
           currentBg = AppBg.cloudyDay;
           AppColors.sevenDayBoxColor = const Color.fromRGBO(140, 155, 170, 0.5);
           AppColors.darkBlueColor = const Color.fromRGBO(0, 28, 57, 1);
-          AppColors.whiteColor = const Color.fromRGBO(255, 255, 255, 1);
+          // AppColors.whiteColor = const Color.fromRGBO(255, 255, 255, 1);
         }
       }
     } catch (e) {
@@ -196,14 +198,14 @@ class WeatherProvider extends ChangeNotifier {
   }
 
   /* получение иконки для каждого для недели*/
-  String _iconUrlPath =
-      'http://openweathermap.org/img/wn/'; // 'http://openweathermap.org/img/wn/'
+  String _iconUrlPath = 'http://openweathermap.org/img/wn/';
   String setDailyIcons(int index) {
     final String getIcon = '${weatherData?.daily?[index].weather?[0].icon}';
     final String setIcon = '$_iconUrlPath$getIcon.png';
     return setIcon;
   }
 
+// 'http://openweathermap.org/img/wn/'
   /*получение дневной температуры*/
   int dailyTemp = 0;
   int setDailyTemp(int index) {
@@ -218,5 +220,40 @@ class WeatherProvider extends ChangeNotifier {
     nightTemp =
         ((weatherData?.daily?[index].temp?.night ?? -kelvin) + kelvin).round();
     return nightTemp;
+  }
+
+  /*Добавление в массив данных о погодных условиях*/
+
+  List<dynamic> weatherValues = [];
+
+  dynamic setValues(int index) {
+    weatherValues.add(current?.windSpeed ?? 0);
+    weatherValues
+        .add(((current?.feelsLike ?? -kelvin) + kelvin).roundToDouble());
+    weatherValues.add((current?.humidity ?? 0) / 1);
+    weatherValues.add((current?.visibility ?? 0) / 1000);
+    return weatherValues[index];
+  }
+
+  /*Время восхода*/
+  String sunRise = '';
+
+  String setCurrentSunRise() {
+    final getSunTime =
+        (current?.sunrise ?? 0) + (weatherData?.timezoneOffset ?? 0);
+    final setSunRise = DateTime.fromMillisecondsSinceEpoch(getSunTime * 1000);
+    sunRise = DateFormat('HH:mm a').format(setSunRise);
+    return sunRise;
+  }
+  
+  
+  String sunSet = '';
+
+  String setCurrentSunSet() {
+    final getSunTime =
+        (current?.sunset ?? 0) + (weatherData?.timezoneOffset ?? 0);
+    final setSunSet = DateTime.fromMillisecondsSinceEpoch(getSunTime * 1000);
+    sunSet = DateFormat('HH:mm a').format(setSunSet);
+    return sunSet;
   }
 }

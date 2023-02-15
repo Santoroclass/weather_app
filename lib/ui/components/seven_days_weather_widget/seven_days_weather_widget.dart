@@ -72,11 +72,11 @@ class SevenDayWidget extends StatelessWidget {
           width: 20,
         ),
         Text(
-          '$dayTemp C',
+          '$dayTemp°C',
           style: AppStyle.fontStyle,
         ),
         Text(
-          '$nightTemp C',
+          '$nightTemp°C',
           style: AppStyle.fontStyle.copyWith(color: AppColors.blackColor),
         )
       ],
