@@ -74,6 +74,7 @@ class SevenDayWidget extends StatelessWidget {
         Text(
           '$dayTemp°C',
           style: AppStyle.fontStyle,
+          
         ),
         Text(
           '$nightTemp°C',

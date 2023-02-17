@@ -53,7 +53,7 @@ class WeatherProvider extends ChangeNotifier {
   String currentStatus = '';
   String setCurrentStatus() {
     currentStatus = current?.weather?[0].description ?? 'Ошибка';
-    return currentStatus;
+    return capitalize(currentStatus);
   }
 
   //*********************************/
@@ -61,7 +61,7 @@ class WeatherProvider extends ChangeNotifier {
   // получение иконки по текущей погоде
   String currentIconUrl = 'https://api.openweathermap.org/img/w/';
 
-  String setIcon() {
+  String getIcon() {
     return '$currentIconUrl${current?.weather?[0].icon}.png';
   }
 
@@ -81,7 +81,7 @@ class WeatherProvider extends ChangeNotifier {
           currentBg = AppBg.rainyNight;
           AppColors.sevenDayBoxColor = const Color.fromRGBO(35, 35, 35, 0.5);
           AppColors.darkBlueColor = const Color.fromRGBO(198, 198, 198, 1);
-          //  AppColors.whiteColor = const Color.fromRGBO(255, 255, 255, 1);
+          AppColors.whiteColor = const Color.fromRGBO(255, 255, 255, 1);
         } else if (id >= 600 && id <= 622) {
           currentBg = AppBg.snowNight;
           AppColors.sevenDayBoxColor = const Color.fromRGBO(12, 23, 27, 0.5);
