@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:weather_app/domain/hive/favourite_history/favorite_history.dart';
+import 'package:weather_app/domain/hive/favourite_history/favourite_history.dart';
 import 'package:weather_app/domain/hive/hive_boxes.dart';
 import 'package:weather_app/ui/resources/app_bg.dart';
 import 'package:weather_app/ui/ui_theme/app_colors.dart';
