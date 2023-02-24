@@ -33,20 +33,28 @@ class SearchAppBar extends StatelessWidget {
                 controller: model.searchController,
                 cursorColor: AppColors.blackColor.withOpacity(0.5),
                 decoration: InputDecoration(
-                  hintText: 'Введите город/регион',
-                  hintStyle: AppStyle.fontStyle.copyWith(
-                    fontSize: 14,
-                    color: const Color.fromRGBO(0, 0, 0, 0.5),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                  fillColor: AppColors.inputColor,
-                  filled: true,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide.none)
-                ),
+                    hintText: 'Введите город/регион',
+                    hintStyle: AppStyle.fontStyle.copyWith(
+                      fontSize: 14,
+                      color: const Color.fromRGBO(0, 0, 0, 0.5),
+                    ),
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                    fillColor: AppColors.inputColor,
+                    filled: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        borderSide: BorderSide.none)),
               ),
             ),
-            IconButton(onPressed: (){}, icon: Icon(Icons.search, color: AppColors.blackColor,
-            ),
+            IconButton(
+              onPressed: () {
+                model.setCurrentCity(context);
+              },
+              icon: Icon(
+                Icons.search,
+                color: AppColors.blackColor,
+              ),
             ),
           ],
         ),

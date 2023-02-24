@@ -14,7 +14,6 @@ class Coord {
     data['lon'] = lon;
     data['lat'] = lat;
     return data;
-}
   }
-
+}
 

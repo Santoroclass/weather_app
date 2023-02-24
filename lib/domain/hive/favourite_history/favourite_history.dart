@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part '../favorite_history/favourite_history.g.dart';
+part 'favourite_history.g.dart';
 
 @HiveType(typeId: 0)
 class FavouriteHistory {

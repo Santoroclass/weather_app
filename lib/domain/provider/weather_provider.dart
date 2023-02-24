@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/domain/api/api.dart';
+import 'package:weather_app/domain/hive/favourite_history/favourite_history.dart';
+import 'package:weather_app/domain/hive/hive_boxes.dart';
 import 'package:weather_app/domain/json_conventors/coord.dart';
 import 'package:weather_app/domain/json_conventors/weather_data.dart';
+import 'package:weather_app/ui/components/favourite_list/favourite_list.dart';
 
 import 'package:weather_app/ui/resources/app_bg.dart';
 import 'package:weather_app/ui/ui_theme/app_colors.dart';
@@ -25,14 +30,35 @@ class WeatherProvider extends ChangeNotifier {
   // Главная функция которую запустим в FutureBuilder
 
   Future<WeatherData?> setUp({String? cityName}) async {
+    final pref = await SharedPreferences.getInstance();
+    // pref.clear();
+    cityName = pref.getString('city_name');
     _coords = await Api.getCoords(cityName: cityName ?? 'Ташкент');
     weatherData = await Api.getWeather(coords);
     current = weatherData?.current;
     setSevenDays();
+
     return weatherData;
   }
 
   //************/
+
+  /* установка текущего города */
+  void setCurrentCity(BuildContext context, {String? cityName}) async {
+    if (searchController.text != null && searchController.text != '') {
+      cityName = searchController.text;
+      final pref = await SharedPreferences.getInstance();
+      await pref.setString('city_name', cityName);
+      await setUp(cityName: pref.getString('city_name'))
+          .then(
+            (value) => Navigator.pop(context),
+          )
+          .then(
+            (value) => searchController.clear(),
+          );
+      notifyListeners();
+    }
+  }
 
   // Получение текушего времени
   String? currentTime;
@@ -245,8 +271,7 @@ class WeatherProvider extends ChangeNotifier {
     sunRise = DateFormat('HH:mm a').format(setSunRise);
     return sunRise;
   }
-  
-  
+
   String sunSet = '';
 
   String setCurrentSunSet() {
@@ -255,5 +280,36 @@ class WeatherProvider extends ChangeNotifier {
     final setSunSet = DateTime.fromMillisecondsSinceEpoch(getSunTime * 1000);
     sunSet = DateFormat('HH:mm a').format(setSunSet);
     return sunSet;
+  }
+
+  /*  добавление в избранное */
+
+  Future<void> setFavorite(BuildContext context, {String? cityName}) async {
+    var box = Hive.box<FavouriteHistory>(HiveBoxes.favouriteBox);
+
+    box
+        .add(
+          FavouriteHistory(
+            weatherData?.timezone ?? 'Error',
+            currentBg ?? AppBg.shinyDay,
+            AppColors.darkBlueColor.value,
+          ),
+        )
+        .then(
+          (value) => ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Городо $cityName добавлен в избранное'),
+            ),
+          ),
+        );
+  }
+
+//****************************/
+
+  /*Удаления из избранных*/
+
+  Future<void> deleteFavorite(int index) async {
+    var box = Hive.box<FavouriteHistory>(HiveBoxes.favouriteBox);
+    box.deleteAt(index);
   }
 }
